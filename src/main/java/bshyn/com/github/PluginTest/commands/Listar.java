@@ -18,7 +18,16 @@ public class Listar implements CommandExecutor{
 		if(args.length == 1) {
 			//SavedCoordinate coords = repository.findbydesc(args[0]);
 			//sender.sendMessage(coords.toString());
+			return true;
 		}
-		return false;
+		
+		try {
+			savedCoords.forEach(coord -> sender.sendMessage(coord.toString()));
+		}catch (Exception e) {
+			sender.sendMessage("Error");
+			return false;
+		}
+		
+		return true;
 	}
 }
