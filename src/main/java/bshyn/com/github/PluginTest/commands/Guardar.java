@@ -1,7 +1,6 @@
 package bshyn.com.github.PluginTest.commands;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +11,6 @@ import bshyn.com.github.PluginTest.data.SavedCoordinateDAO;
 import bshyn.com.github.PluginTest.entities.SavedCoordinate;
 
 public class Guardar extends JavaPlugin implements CommandExecutor{
-
-	//Repositorio
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -28,15 +25,10 @@ public class Guardar extends JavaPlugin implements CommandExecutor{
 			int zCoord = Integer.parseInt(args[3]);
 			SavedCoordinate coord = new SavedCoordinate(desc, xCoord, yCoord, zCoord);
 			
-			Optional<SavedCoordinate[]> opt = SavedCoordinateDAO.findAll();
-			if(opt.isPresent()) {
-				SavedCoordinate[] newCoords = Arrays.copyOf(opt.get(), opt.get().length +1);
-				newCoords[opt.get().length] = coord;
-			} else {
-				sender.sendMessage("Error");
-				return false;
-			}
+			List<SavedCoordinate> savedCoords = SavedCoordinateDAO.findAll();
 			
+			savedCoords.add(coord);
+			SavedCoordinateDAO.saveFile(savedCoords);
 			sender.sendMessage("Se guardo con exito");
 		}
 		catch (Exception e) {

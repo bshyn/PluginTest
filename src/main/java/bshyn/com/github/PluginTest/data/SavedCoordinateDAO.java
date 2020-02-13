@@ -3,8 +3,11 @@ package bshyn.com.github.PluginTest.data;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import bshyn.com.github.PluginTest.entities.SavedCoordinate;
@@ -12,13 +15,12 @@ import bshyn.com.github.PluginTest.entities.SavedCoordinate;
 public class SavedCoordinateDAO {
 
 	public static Optional<SavedCoordinate> findByDesc(String desc){
-		Optional<SavedCoordinate> opt = Optional.empty();
+		
 		try {
-			SavedCoordinate[] coords = readFile();
-			
+			List<SavedCoordinate> coords = readFile();
 			for (SavedCoordinate savedCoordinate : coords) {
 				if(savedCoordinate.getCoordDescription().equals(desc)) {
-					opt = Optional.of(savedCoordinate);
+					return Optional.of(savedCoordinate);
 				}
 			}
 			
@@ -26,25 +28,25 @@ public class SavedCoordinateDAO {
 			e.printStackTrace();
 		}
 		
-		return opt;
+		return Optional.empty();
 	}
 	
-	public static Optional<SavedCoordinate[]> findAll() {
-		Optional<SavedCoordinate[]> opt = Optional.empty();
+	public static List<SavedCoordinate> findAll() {
+		List<SavedCoordinate> saved = null;
 		try {
-			opt = Optional.of(readFile());
+			saved = readFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return opt;
+		return saved;
 	}
 	
-	private static SavedCoordinate[] readFile() throws IOException {
+	private static List<SavedCoordinate> readFile() throws IOException {
 		FileReader reader = new FileReader("coords.json");
 		int data = reader.read();
 		Gson gson = new Gson();
 		String json = "";
-		SavedCoordinate[] coords;
+		List<SavedCoordinate> coords;
 		
 		while(data != -1) {
 			json += (char) data;
@@ -52,12 +54,14 @@ public class SavedCoordinateDAO {
 		}
 		reader.close();
 		
-		coords = gson.fromJson(json, SavedCoordinate[].class);
+		@SuppressWarnings("serial")
+		Type listType = new TypeToken<List<SavedCoordinate>>() {}.getClass();
+		coords = gson.fromJson(json, listType);
 		
 		return coords;
 	}
 	
-	public static void saveFile(SavedCoordinate[] coords) throws IOException {
+	public static void saveFile(List<SavedCoordinate> coords) throws IOException {
 		FileWriter writer = new FileWriter("coords.json");
 		Gson gson = new Gson();
 		String json = gson.toJson(coords);
