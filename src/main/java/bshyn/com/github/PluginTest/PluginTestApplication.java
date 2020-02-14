@@ -9,8 +9,8 @@ public class PluginTestApplication extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.getCommand("guardar").setExecutor(new Guardar());
-		this.getCommand("listar").setExecutor(new Listar());
+		getCommand("guardar").setExecutor(new Guardar());
+		getCommand("listar").setExecutor(new Listar());
 	}
 
 }

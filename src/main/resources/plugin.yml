@@ -1,0 +1,11 @@
+name: PluginTest
+version: 1.0.0
+main: bshyn.com.github.PluginTest.PluginTestApplication
+commands:
+  guardar:
+    description: Guarda el lugar
+    usage: "/guardar descripcion X Y Z"
+  listar:
+    description: Lista los lugares
+    usage: "/listar para todos, /listar descripcion para buscar uno"
+    

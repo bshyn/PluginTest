@@ -10,8 +10,12 @@ import org.bukkit.command.CommandSender;
 import bshyn.com.github.PluginTest.data.SavedCoordinateDAO;
 import bshyn.com.github.PluginTest.entities.SavedCoordinate;
 
-public class Listar implements CommandExecutor{
 
+public class Listar implements CommandExecutor{
+	
+	public Listar() {
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length == 1) {
@@ -24,9 +28,18 @@ public class Listar implements CommandExecutor{
 				sender.sendMessage("No se encontro");
 			}
 		} else {
-			List<SavedCoordinate> saved = SavedCoordinateDAO.findAll();
-			saved.forEach(coord -> sender.sendMessage(coord.toString()));
-			return true;
+			Optional<List<SavedCoordinate>> opt = SavedCoordinateDAO.findAll();
+			if(opt.isPresent()) {
+				List<SavedCoordinate> saved = opt.get();
+				if(saved.isEmpty()) {
+					sender.sendMessage("Lista vacia");
+					return false;
+				}
+				for (SavedCoordinate savedCoordinate : saved) {
+					sender.sendMessage(savedCoordinate.toString());
+				}
+				return true;
+			}
 		}
 		return false;
 	}

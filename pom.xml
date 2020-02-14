@@ -22,6 +22,8 @@
 	</repositories>
 
 	<properties>
+		<author>BShyn</author>
+		<mainClass>bshyn.com.github.PluginTest</mainClass>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -32,27 +34,14 @@
 		    <version>1.15.2-R0.1-SNAPSHOT</version>
 		    <scope>provided</scope>
 		 </dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
+		 
+		 <dependency>
+		  <groupId>org.spigotmc</groupId>
+		  <artifactId>plugin-annotations</artifactId>
+		  <version>1.1.0-SNAPSHOT</version>
+		  <scope>provided</scope>
 		</dependency>
-	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	</dependencies>
 
 </project>
